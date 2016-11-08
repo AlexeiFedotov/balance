@@ -1,0 +1,82 @@
+// unit campaign gen script
+
+function randBetween (a,b)
+{
+	return Math.floor( Math.random() * (b-a)) + a
+}
+
+// 5 глав по 11 эпизодов
+// каждый эпизод про моба в конце мини босс
+// до 10го уровня в эпизоде 4 ноды + нода с боссом
+// после 11го уровня в эпизоде 9 нод + мини босс
+
+
+var mob = {};
+mob.model = ['Zombie', 'Skeleton', 'Mushroom', 'Plant', 'Stump', 'Troll', 'Stoneguy', 'Slime', 'Fly', 'Goblin'];		// все возможные мобы
+mob.role = ['Damage', 'Damage', 'Support', 'Mix', 'Mix', 'Tank', 'Tank', 'Damage', 'Damage', 'Mix'];		// какой модели какая роль соответствует
+
+
+var position = {};
+position.front = ['Tank', 'Damage', 'Mix'];		// роли возможные на передней позиции
+position.back = ['Damage', 'Mix', 'Support'];		// роли возможные на задней позиции
+position.frontWeight = [1, 0.7, 0.6];		// вес для ролей на передней позиции
+position.backWeight = [0.3, 0.4, 1];		// вес для ролей на задней позиции
+
+
+var rolePos = ['front', 'back', 'back'];
+
+
+function roleChecker (a,b)
+{
+	var c = 0;
+	if (a == 'front') 
+	{
+		for (var i = 0; i < position.front.length; i++)		// смотрим соответствует ли роль той что должна стоять на задней позиции
+		{
+			if (mob.role[b] == position.front[i]) {
+				c = 1;
+			};
+		};
+	};
+	if (a == 'back')
+	{
+		for (var i = 0; i < position.back.length; i++)		// смотрим соответствует ли роль той что должна стоять на задней позиции
+		{
+			if (mob.role[b] == position.back[i]) {
+				c = 1;
+			};
+		};
+	};
+	return c;
+};
+
+
+var roleCount = [1,2,2,1];		// количество мобов с ролью в паке танк  дамаг  микс  сап
+var a = 0;
+var chosen = [0,0,0];		// сюда записываем какие модели были выбраны
+
+for (var k = 0; k < 2; k++) {
+	for (var i = 0; i < 4; i++)		// количество паков + пустая строка
+	{
+		if (i != 3) 
+		{
+			for (var j = 0; j < 3; j++)		// мобов в паке
+			{
+				a = randBetween(0, mob.model.length);		// кидаем рандом чтобы выбрать моба
+				while (roleChecker (rolePos[j], a) != 1)		// проверка на соответствие моба и его места
+				{
+					a = randBetween(0, mob.model.length);		// перекидываем пока не будет соответствовать	
+				}
+				chosen [j] = a;
+			};
+			console.log (mob.model[chosen[0]], mob.model[chosen[1]], mob.model[chosen[2]]);		// выводим выбранных мобов
+			chosen = [0,0,0];		// обнуляем выбранных мобов
+		} else{
+			console.log('');		// пустая строка между нодами
+		};
+	};
+};
+
+a = 0;
+b = 0;
+
