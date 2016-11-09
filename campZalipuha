@@ -1,0 +1,145 @@
+function mobChoiceFront (a) {
+
+	if (a>0.884) {
+		return 'Zombie';
+	} else{ 
+		if (a>0.768) {
+			return 'Skeleton';
+		} else{
+			if (a>0.702) {
+				return 'Plant';
+			} else{
+				if (a>0.636) {
+					return 'Stump';
+				} else{
+					if (a>0.470) {
+						return 'Troll';
+					} else{
+						if (a>0.304) {
+							return 'Stoneguy';
+						} else{
+							if (a>0.188) {
+								return 'Slime';
+							} else{
+								if (a>0.072) {
+									return 'Fly';
+								} else{
+									return 'Goblin';
+								};
+							};
+						};
+					};
+				};
+			};
+		};
+	};
+};
+
+function mobChoiceBack (a) {
+
+	if (a>0.896) {
+		return 'Zombie';
+	} else{ 
+		if (a>0.792) {
+			return 'Skeleton';
+		} else{
+			if (a>0.584) {
+				return 'Mushroom';
+			} else{
+				if (a>0.459) {
+					return 'Plant';
+				} else{
+					if (a>0.334) {
+						return 'Stump';
+					} else{
+						if (a>0.230) {
+							return 'Slime';
+						} else{
+							if (a>0.126) {
+								return 'Fly';
+							} else{
+								return 'Goblin';
+							};
+						};
+					};
+				};
+			};
+		};
+	};
+};
+
+function randBetween (a,b)
+{
+	return Math.floor( Math.random() * (b-a)) + a
+}
+
+
+var unlock =['Zombie', 'Skeleton', 'Mushroom', 'Plant', 'Stump', 'Troll', 'Stoneguy', 'Slime', 'Fly', 'Goblin'];		// порядок в котором мобы появляются в кампании 
+var model = ['Zombie', 'Skeleton', 'Mushroom', 'Plant', 'Stump', 'Troll', 'Stoneguy', 'Slime', 'Fly', 'Goblin'];		// все возможные мобы
+var role = ['Damage', 'Damage', 'Support', 'Mix', 'Mix', 'Tank', 'Tank', 'Damage', 'Damage', 'Mix'];		// какой модели какая роль соответствует
+var skins = [['Zombie','Hobo','Mexican','Drinker','Pirate'],
+			['Skeleton','','Fisher','Freeman','Metal'],
+			['Mushroom', '','Cowboy','Princess','Alien'],
+			['Plant', '','Unicorn','Alien','Kitty'],
+			['Stump','','Indian','Fire','Vampire','Hive'],
+			['Troll', '','Chief','Fairy','Guerrilla'],
+			['Stoneguy', 'Spear','Pirate','Joker','China'],
+			['Slime', 'Axe','Robin','Nuclear','Hipster'],
+			['Fly', 'Fork','Summer','Pimp','Redneck'],
+			['Goblin', '','Hogwarts','Rogue','Elvis']];
+
+var skinsNew = [];
+	// в этом массиве удаляем тех что уже выбраны, дабы избегать повторов.
+
+var a = 0;
+var b = 0;
+var mob = [0,0,0];
+var skin = [0,0,0];
+var c = 0;
+
+for (var i = 0; i < 20; i++) 
+{
+	if ( (i+1)/4 == Math.round((i+1)/4)) {
+		console.log('');
+	} else {
+		c = 10;
+		// c = Math.floor(Math.random()*3);
+		for (var j = 0; j < 3; j++) 
+		{
+			b = Math.random();
+			if (j == 0) {
+				if (j == c) {
+					mob[j] = 'Fly';
+					skin[j] = skins[model.indexOf(mob[j])] [randBetween( 1, skins[model.indexOf(mob[j])].length )];
+					// skin[j] = '_noAbility'+randBetween( 0, skins[model.indexOf('Zombie')].length-1 );
+				} else {
+					mob[j] = mobChoiceFront (b);
+					if (mob[j] == 'Skeleton' || mob[j] == 'Zombie' || mob[j] == 'Troll' || mob[j] == 'Stoneguy' || mob[j] == 'Goblin' || mob[j] == 'Stump' || mob[j] == 'Slime' || mob[j] == 'Mushroom' || mob[j] == 'Plant' || mob[j] == 'Fly') {
+						skin[j] = skins[model.indexOf(mob[j])] [randBetween( 1, skins[model.indexOf(mob[j])].length )];
+					} else {
+						// skin[j] = '_noAbility'+randBetween( 0, skins[model.indexOf('Fly')].length-1 );
+					}
+					// skin[j] = skins[model.indexOf(mob[j])] [randBetween( 1, skins[model.indexOf(mob[j])].length )];
+				};
+			} else {
+				if (j == c) {
+					mob[j] = 'Fly';
+					skin[j] = skins[model.indexOf(mob[j])] [randBetween( 1, skins[model.indexOf(mob[j])].length )];
+					// skin[j] = '_noAbility'+randBetween( 0, skins[model.indexOf('Zombie')].length-1 );
+				} else {
+					mob[j] = mobChoiceBack (b);
+					if (mob[j] == 'Skeleton' || mob[j] == 'Zombie' || mob[j] == 'Troll' || mob[j] == 'Stoneguy' || mob[j] == 'Goblin' || mob[j] == 'Stump' || mob[j] == 'Slime' || mob[j] == 'Mushroom' || mob[j] == 'Plant' || mob[j] == 'Fly') {
+						skin[j] = skins[model.indexOf(mob[j])] [randBetween( 1, skins[model.indexOf(mob[j])].length )];
+					} else {
+						// skin[j] = '_noAbility'+randBetween( 0, skins[model.indexOf('Fly')].length-1 );
+					}
+					// skin[j] = skins[model.indexOf(mob[j])] [randBetween( 1, skins[model.indexOf(mob[j])].length )];
+				};
+			};
+		};
+		console.log (mob[0]+skin[0]+',', mob[1]+skin[1]+',', mob[2]+skin[2]);
+		skin = [0,0,0];
+		mob = [0,0,0];
+	};
+}
+
